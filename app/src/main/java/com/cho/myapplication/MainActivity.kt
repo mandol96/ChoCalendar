@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
@@ -106,7 +105,10 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         } else {
-                            Box(modifier = Modifier.fillMaxWidth())
+                            Day(
+                                date = date,
+                                dayConfig = DayConfig.default().copy(textColor = Color.LightGray)
+                            )
                         }
                     }
                 }
@@ -125,13 +127,12 @@ fun getMonthDates(
     currentMonth: LocalDate,
     startDayOfWeek: DayOfWeek
 ): List<LocalDate> {
-    val firstDayOfMonth = currentMonth.minus(currentMonth.day - 1, DateTimeUnit.DAY)
-    val lastDayOfMonth = firstDayOfMonth.plus(1, DateTimeUnit.MONTH).minus(1, DateTimeUnit.DAY)
+    val firstDayOfMonth = LocalDate(currentMonth.year, currentMonth.month, 1)
+
     val firstDayOffset = (firstDayOfMonth.dayOfWeek.ordinal - startDayOfWeek.ordinal + 7) % 7
-    return (-firstDayOffset until lastDayOfMonth.day).map {
-        firstDayOfMonth.plus(
-            it.toLong(),
-            DateTimeUnit.DAY
-        )
+    val calendarStartDate = firstDayOfMonth.minus(firstDayOffset, DateTimeUnit.DAY)
+
+    return (0 until 42).map { i ->
+        calendarStartDate.plus(i.toLong(), DateTimeUnit.DAY)
     }
 }
