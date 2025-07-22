@@ -57,6 +57,7 @@ fun DayContent(
     ) {
         Text(
             text = date.day.toString(),
+            color = dayConfig.textColor,
             modifier = Modifier.wrapContentSize(),
             textAlign = TextAlign.Center,
         )

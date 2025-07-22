@@ -99,7 +99,11 @@ class MainActivity : ComponentActivity() {
                         if (date.month == currentMonth.month) {
                             Day(
                                 date = date,
-                                dayConfig = DayConfig.default()
+                                dayConfig = if (date.dayOfWeek == DayOfWeek.SUNDAY) {
+                                    DayConfig.default().copy(textColor = Color.Red)
+                                } else {
+                                    DayConfig.default()
+                                }
                             )
                         } else {
                             Box(modifier = Modifier.fillMaxWidth())
