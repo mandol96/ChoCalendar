@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cho.myapplication.config.DayLabelConfig
 import kotlinx.datetime.DayOfWeek
@@ -42,8 +43,10 @@ fun Scaffold(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                    text = dayOfWeek.name.take(dayLabelConfig.textCharCount),
-                ) }
+                        text = dayOfWeek.toKoreanString(),
+                        color = if (dayOfWeek == DayOfWeek.SUNDAY) Color.Red else Color.Black
+                    )
+                }
             }
             items(items = displayDates) { date ->
                 Box(
@@ -51,10 +54,22 @@ fun Scaffold(
                         .fillMaxWidth()
                         .aspectRatio(1f),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     content(date)
                 }
             }
         }
     )
+}
+
+fun DayOfWeek.toKoreanString(): String {
+    return when (this) {
+        DayOfWeek.SUNDAY -> "일"
+        DayOfWeek.MONDAY -> "월"
+        DayOfWeek.TUESDAY -> "화"
+        DayOfWeek.WEDNESDAY -> "수"
+        DayOfWeek.THURSDAY -> "목"
+        DayOfWeek.FRIDAY -> "금"
+        DayOfWeek.SATURDAY -> "토"
+    }
 }
